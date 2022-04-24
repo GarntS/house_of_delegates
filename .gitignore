@@ -1,1 +1,5 @@
 /target
+
+# c binaries
+c_src/libgarntalloc.so
+c_src/test_garntalloc
