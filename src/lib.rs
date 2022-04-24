@@ -74,7 +74,7 @@ fn bump_alloc(page: &mut PageInfo, size: usize) -> usize {
 
 // malloc() allocates a block of memory of the requested size
 #[no_mangle]
-pub extern "C" fn malloc(size: usize) -> usize {
+pub extern "C" fn gmalloc(size: usize) -> usize {
     // make sure we aren't trying to allocate more than a page
     if size > PAGE_SIZE {
         return 0;
@@ -115,12 +115,12 @@ pub extern "C" fn malloc(size: usize) -> usize {
 
 // free() frees the malloc()-allocated memory located at the provided pointer
 #[no_mangle]
-pub extern "C" fn free(addr: usize) {
+pub extern "C" fn gfree(addr: usize) {
     // lock the mutex
     let pages: &mut Vec<PageInfo> = &mut *ALLOCATED_PAGES.lock().unwrap();
 
     // find the page the allocation was within
-    if let Some(page) = pages.iter_mut().find(|page| addr > page.page_addr && addr < page.page_addr + page.page_size) {
+    if let Some(page) = pages.iter_mut().find(|page| addr >= page.page_addr && addr < page.page_addr + page.page_size) {
         // find the allocation's size and remove it from the hashmap
         if let Some(size) = page.alloc_sizes.remove(&addr) {
             // add a new entry to the free list
