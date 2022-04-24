@@ -1,0 +1,12 @@
+[package]
+name = "house_of_delegates"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "garntalloc"
+crate-type = ["cdylib"]
+
+[dependencies]
+lazy_static = "1.4.0"
+memmap2 = "0.5.3"
