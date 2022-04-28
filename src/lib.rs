@@ -72,7 +72,7 @@ fn bump_alloc(page: &mut PageInfo, size: usize) -> usize {
     alloc_addr
 }
 
-// malloc() allocates a block of memory of the requested size
+// gmalloc() allocates a block of memory of the requested size
 #[no_mangle]
 pub extern "C" fn gmalloc(size: usize) -> usize {
     // make sure we aren't trying to allocate more than a page
@@ -113,7 +113,7 @@ pub extern "C" fn gmalloc(size: usize) -> usize {
     return alloc_addr;
 }
 
-// free() frees the malloc()-allocated memory located at the provided pointer
+// gfree() frees the malloc()-allocated memory located at the provided pointer
 #[no_mangle]
 pub extern "C" fn gfree(addr: usize) {
     // lock the mutex
